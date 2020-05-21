@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/itemBackgroundColor">
+
+    <LinearLayout
+        android:id="@+id/layoutForm"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="25dp"
+            android:fontFamily="sans-serif"
+            android:gravity="center"
+            android:text="@string/add_new_inspiring_person"
+            android:textSize="25sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="35dp"
+            android:layout_marginBottom="25dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvDateOfBirth"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/date_of_birth"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvEnterDate"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border"
+                android:fontFamily="serif-monospace"
+                android:gravity="center"
+                android:text="@string/defaultDate"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvDescription"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/short_description"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/etDescription"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border"
+                android:fontFamily="serif-monospace"
+                android:gravity="center"
+                android:hint="@string/enter_text_here"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvQuotes"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/quotes"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/etQuote1"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border"
+                android:fontFamily="serif-monospace"
+                android:gravity="center"
+                android:hint="@string/quote1"
+                android:textSize="17sp" />
+
+            <EditText
+                android:id="@+id/etQuote2"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/border"
+                android:fontFamily="serif-monospace"
+                android:gravity="center"
+                android:hint="@string/quote2"
+                android:textSize="17sp" />
+
+            <TextView
+                android:id="@+id/tvChooseImage"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:text="@string/inspiring_person_image"
+                android:textSize="17sp" />
+
+            <Button
+                android:id="@+id/btnChooseImage"
+                android:layout_width="180dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="serif-monospace"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:text="@string/choose_image"
+                android:textSize="17sp" />
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <Button
+                android:id="@+id/btnCancel"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif-monospace"
+                android:text="@string/cancel"
+                android:textSize="17sp"
+                android:layout_margin="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"/>
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="serif-monospace"
+                android:text="@string/save"
+                android:textSize="17sp"
+                android:layout_margin="15dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"/>
+        </RelativeLayout>
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
