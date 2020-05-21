@@ -1,4 +1,4 @@
-# RMA_LV3_2
+# RMA_Room_DB
 Basic Kotlin application with Fragments, Fragment Manager and Room database
 
 This application is upgrade on previously created application with fragments with local storage.
