@@ -19,6 +19,9 @@ buildscript {
 ext {
     roomVersion = '2.2.5'
     roomCompilerVersion = '2.1.0-alpha06'
+    ktxVersion = '1.1.0'
+    coroutinesVersion = "1.1.1"
+    room = '2.2.0-rc01'
 }
 
 allprojects {

@@ -6,17 +6,17 @@ import ht.ferit.fjjukic.roomapplication.models.InspiringPerson
 @Dao
 interface InspiringPeopleDao {
     @Insert
-    fun insert(person: InspiringPerson)
+    suspend fun insert(person: InspiringPerson)
 
     @Query("SELECT * FROM inspiring_person ORDER BY id ASC")
-    fun getAll(): MutableList<InspiringPerson>
+    suspend fun getAll(): MutableList<InspiringPerson>
 
     @Query("SELECT * FROM inspiring_person WHERE id = :id")
-    fun get(id: Int): InspiringPerson
+    suspend fun get(id: Int): InspiringPerson
 
     @Update
-    fun update(person: InspiringPerson)
+    suspend fun update(person: InspiringPerson)
 
     @Delete
-    fun delete(person: InspiringPerson)
+    suspend fun delete(person: InspiringPerson)
 }

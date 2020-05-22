@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import ht.ferit.fjjukic.roomapplication.R
@@ -12,6 +13,7 @@ import ht.ferit.fjjukic.roomapplication.interfaces.InspiringPeopleListener
 import ht.ferit.fjjukic.roomapplication.models.InspiringPerson
 import ht.ferit.fjjukic.roomapplication.repository.InspiringPeopleRepository
 import kotlinx.android.synthetic.main.inspiring_people_list_item.view.*
+import kotlinx.coroutines.launch
 
 
 class InspiringPeopleAdapter(
@@ -19,8 +21,7 @@ class InspiringPeopleAdapter(
     private val inspiringPeopleListener: InspiringPeopleListener,
     private val repository: InspiringPeopleRepository
 ) : BaseAdapter() {
-    private var inspiringPeople: MutableList<InspiringPerson> =
-        repository.getAll()
+    private var inspiringPeople: MutableList<InspiringPerson> = mutableListOf()
 
     private val inflater: LayoutInflater =
         this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater

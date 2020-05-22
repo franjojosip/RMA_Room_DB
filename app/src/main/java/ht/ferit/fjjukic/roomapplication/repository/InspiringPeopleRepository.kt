@@ -6,23 +6,23 @@ import java.time.LocalDate
 
 class InspiringPeopleRepository(private val inspiringPeopleDao: InspiringPeopleDao) {
 
-    fun get(id: Int): InspiringPerson {
+    suspend fun get(id: Int): InspiringPerson {
         return inspiringPeopleDao.get(id)
     }
 
-    fun getAll(): MutableList<InspiringPerson> {
+    suspend fun getAll(): MutableList<InspiringPerson> {
         return inspiringPeopleDao.getAll()
     }
 
-    fun insert(person: InspiringPerson) {
+    suspend fun insert(person: InspiringPerson) {
         inspiringPeopleDao.insert(person)
     }
 
-    fun update(person: InspiringPerson) {
+    suspend fun update(person: InspiringPerson) {
         inspiringPeopleDao.update(person)
     }
 
-    fun getQuote(id: Int): String {
+    suspend fun getQuote(id: Int): String {
         val person: InspiringPerson? = inspiringPeopleDao.get(id)
         return when (person) {
             null -> "-"
@@ -30,11 +30,11 @@ class InspiringPeopleRepository(private val inspiringPeopleDao: InspiringPeopleD
         }
     }
 
-    fun delete(person: InspiringPerson){
+    suspend fun delete(person: InspiringPerson){
         this.inspiringPeopleDao.delete(person)
     }
 
-    fun fillDB() {
+    suspend fun fillDB() {
         inspiringPeopleDao.insert(
             InspiringPerson(
                 LocalDate.of(1973, 4, 26).toString(),

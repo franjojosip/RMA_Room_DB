@@ -18,16 +18,14 @@ abstract class InspiringPeopleDatabase : RoomDatabase() {
         fun getDatabase(
             context: Context
         ): InspiringPeopleDatabase {
-            return INSTANCE ?: synchronized(InspiringPeopleDatabase::class) {
-                val instance: InspiringPeopleDatabase = Room.databaseBuilder(
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: Room.databaseBuilder(
                     context.applicationContext,
                     InspiringPeopleDatabase::class.java,
                     NAME
                 )
-                    .allowMainThreadQueries()
                     .build()
-                INSTANCE = instance
-                instance
+                    .also{ INSTANCE = it}
             }
         }
     }

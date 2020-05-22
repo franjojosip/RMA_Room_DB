@@ -16,10 +16,12 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.checkSelfPermission
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import ht.ferit.fjjukic.roomapplication.models.InspiringPerson
 import ht.ferit.fjjukic.roomapplication.R
 import ht.ferit.fjjukic.roomapplication.repository.CodeRepository
 import ht.ferit.fjjukic.roomapplication.repository.InspiringPeopleRepository
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.util.*
 
@@ -58,17 +60,19 @@ class EditInspiringPeopleFragment(
         this.calendar = Calendar.getInstance()
 
         if (this.itemId != -1) {
-            val inspiringPerson: InspiringPerson? = repository.get(itemId)
-            when {
-                inspiringPerson != null -> {
-                    this.fragmentTitle.text = getString(R.string.edit_inspiring_person_title)
-                    this.dateOfBirthField.text = inspiringPerson.dateOfBirth
-                    this.shortDescriptionField.setText(inspiringPerson.shortDescription)
-                    val quotes: List<String> = inspiringPerson.quotes.split(";")
-                    this.quoteOneField.setText(quotes[0])
-                    this.quoteTwoField.setText(quotes[1])
-                    this.imagePath = inspiringPerson.imagePath
-                    this.dateOfBirth = LocalDate.parse(inspiringPerson.dateOfBirth)
+            lifecycleScope.launch {
+                val inspiringPerson: InspiringPerson? = repository.get(itemId)
+                when {
+                    inspiringPerson != null -> {
+                        fragmentTitle.text = getString(R.string.edit_inspiring_person_title)
+                        dateOfBirthField.text = inspiringPerson.dateOfBirth
+                        shortDescriptionField.setText(inspiringPerson.shortDescription)
+                        val quotes: List<String> = inspiringPerson.quotes.split(";")
+                        quoteOneField.setText(quotes[0])
+                        quoteTwoField.setText(quotes[1])
+                        imagePath = inspiringPerson.imagePath
+                        dateOfBirth = LocalDate.parse(inspiringPerson.dateOfBirth)
+                    }
                 }
             }
         }
@@ -82,11 +86,14 @@ class EditInspiringPeopleFragment(
             when {
                 this.dateOfBirthField.text != "--/--/----" && this.shortDescriptionField.text.isNotEmpty() && this.quoteOneField.text.isNotEmpty() && this.quoteTwoField.text.isNotEmpty() && this.imagePath.isNotEmpty() -> {
                     val person: InspiringPerson = createInspiringPerson()
-                    when (itemId) {
-                        -1 -> repository.insert(person)
-                        else -> repository.update(person)
+                    lifecycleScope.launch {
+
+                        when (itemId) {
+                            -1 -> repository.insert(person)
+                            else -> repository.update(person)
+                        }
+                        fragmentListener.backAction()
                     }
-                    fragmentListener.backAction()
                 }
                 else -> Toast.makeText(
                     activity!!,

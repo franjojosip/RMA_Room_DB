@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import ht.ferit.fjjukic.roomapplication.R
 import ht.ferit.fjjukic.roomapplication.adapter.InspiringPeopleAdapter
 import ht.ferit.fjjukic.roomapplication.database.InspiringPeopleDatabase
@@ -12,6 +13,7 @@ import ht.ferit.fjjukic.roomapplication.fragment.InspiringPeopleFragment
 import ht.ferit.fjjukic.roomapplication.interfaces.FragmentListener
 import ht.ferit.fjjukic.roomapplication.interfaces.InspiringPeopleListener
 import ht.ferit.fjjukic.roomapplication.repository.InspiringPeopleRepository
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity() {
@@ -25,25 +27,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {
-            setRepository()
-            setFragmentManager()
+            lifecycleScope.launch {
+                setRepository()
+                setFragmentManager()
+            }
         }
     }
 
-    private fun setRepository() {
+    private suspend fun setRepository() {
         this.repository = InspiringPeopleRepository(InspiringPeopleDatabase.getDatabase(context = this).inspiringPeopleDao())
         when {
             this.repository.getAll().count() == 0 -> this.repository.fillDB()
         }
     }
 
-    private fun setFragmentManager() {
+    private suspend fun setFragmentManager() {
         this.inspiringPersonAdapter =
                 InspiringPeopleAdapter(
                         this@MainActivity,
                         createInspiringPeopleListener(),
                         this.repository
                 )
+        inspiringPersonAdapter.setItems(repository.getAll())
         this.inspiringPeopleFragment =
                 InspiringPeopleFragment(
                         this.inspiringPersonAdapter,
@@ -57,11 +62,14 @@ class MainActivity : AppCompatActivity() {
         return object :
                 InspiringPeopleListener {
             override fun onShowQuote(index: Int) {
-                Toast.makeText(
+                lifecycleScope.launch {
+                    val quote = repository.getQuote(index)
+                    Toast.makeText(
                         applicationContext,
-                        repository.getQuote(index),
+                        quote,
                         Toast.LENGTH_SHORT
-                ).show()
+                    ).show()
+                }
             }
 
             override fun checkRemoveItem(index: Int) {
@@ -75,9 +83,11 @@ class MainActivity : AppCompatActivity() {
                 alertDialog.setButton(
                         AlertDialog.BUTTON_POSITIVE, "Erase"
                 ) { dialog, which ->
-                    repository.delete(repository.get(index))
-                    dialog.dismiss()
-                    inspiringPersonAdapter.setItems(repository.getAll())
+                    lifecycleScope.launch {
+                        repository.delete(repository.get(index))
+                        dialog.dismiss()
+                        inspiringPersonAdapter.setItems(repository.getAll())
+                    }
                 }
                 alertDialog.show()
             }
@@ -104,7 +114,9 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction()
                         .replace(R.id.frameLayout, inspiringPeopleFragment)
                         .commit()
-                inspiringPersonAdapter.setItems(repository.getAll())
+                lifecycleScope.launch {
+                    inspiringPersonAdapter.setItems(repository.getAll())
+                }
             }
 
             override fun addNewItem() {
@@ -128,6 +140,8 @@ class MainActivity : AppCompatActivity() {
         } else {
             super.onBackPressed()
         }
-        inspiringPersonAdapter.setItems(repository.getAll())
+        lifecycleScope.launch {
+            inspiringPersonAdapter.setItems(repository.getAll())
+        }
     }
 }
